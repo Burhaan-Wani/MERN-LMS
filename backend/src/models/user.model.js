@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "User name is required"],
         trim: true,
-        maxlength: [1, "Username must contain atleast one character"],
+        minlength: [1, "Username must contain atleast one character"],
         unique: true,
     },
     email: {
@@ -21,11 +21,13 @@ const userSchema = new mongoose.Schema({
         trim: true,
         unique: true,
         select: false,
-        maxlength: [6, "Password must be atleast 6 character long"],
+        minlength: [6, "Password must be atleast 6 character long"],
     },
     role: {
         type: String,
         trim: true,
+        default: "user",
+        enum: ["user", "instructor"],
     },
 });
 

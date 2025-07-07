@@ -6,8 +6,8 @@ const catchAsync = require("../utils/catchAsync");
 const { JWT_SECRET, JWT_EXPIRES_IN, NODE_ENV } = require("../config");
 
 const register = catchAsync(async (req, res, next) => {
-    const { userName, email, password, role } = req.body;
-    if (!userName || !email || !password || !role) {
+    const { userName, email, password } = req.body;
+    if (!userName || !email || !password) {
         return next(new AppError("All fields are required", 400));
     }
 
@@ -20,16 +20,12 @@ const register = catchAsync(async (req, res, next) => {
         userName,
         email,
         password,
-        role,
     });
     user.password = undefined;
 
     res.status(201).json({
         status: "success",
-        message: "User registered successfullt",
-        data: {
-            user,
-        },
+        message: "User registered successfully",
     });
 });
 
