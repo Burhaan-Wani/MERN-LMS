@@ -21,21 +21,21 @@ const storage = multer.diskStorage({
 });
 
 // Optional: basic file type validation
-const fileFilter = (req, file, cb) => {
-    const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
-    if (allowedTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        cb(new Error("Unsupported file type"), false);
-    }
-};
+// const fileFilter = (req, file, cb) => {
+//     const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
+//     if (allowedTypes.includes(file.mimetype)) {
+//         cb(null, true);
+//     } else {
+//         cb(new Error("Unsupported file type"), false);
+//     }
+// };
 
 const upload = multer({
     storage,
-    fileFilter,
-    limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB max size (optional)
-    },
+    // fileFilter,
+    // limits: {
+    //     fileSize: 5 * 1024 * 1024, // 5MB max size (optional)
+    // },
 });
 
 module.exports = upload;

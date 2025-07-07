@@ -1,9 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+
 const { FRONTEND_URL } = require("./config");
 const AppError = require("./utils/AppError");
 const globalErrorHandler = require("./middlewares/globalErrorHandler");
+
+const authRoutes = require("./routes/auth.routes");
 
 const app = express();
 
@@ -19,6 +22,9 @@ app.use(
         allowedHeaders: ["Content-Type", "Authorization", "Accept"],
     })
 );
+
+// ROUTES
+app.use("/api/v1/auth", authRoutes);
 
 // ROUTER HANDLER FOR UNKNOWN ROUTES
 app.all("*", (req, res, next) => {
