@@ -49,6 +49,8 @@ const login = catchAsync(async (req, res, next) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         sameSite: NODE_ENV == "production" ? "None" : "Lax",
     });
+
+    user.password = undefined;
     res.status(200).json({
         status: "success",
         message: "User Logged In successfully",

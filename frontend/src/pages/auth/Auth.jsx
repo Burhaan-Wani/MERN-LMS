@@ -6,7 +6,7 @@ export default function Auth() {
     return (
         <div className="flex justify-center items-center h-screen">
             <div className="flex w-full max-w-sm flex-col gap-6">
-                <Tabs defaultValue={"Sign Up"}>
+                <Tabs defaultValue={"Log In"}>
                     <TabsList className={"w-full"}>
                         <TabsTrigger value="Sign Up">Sign Up</TabsTrigger>
                         <TabsTrigger value="Log In">Login</TabsTrigger>

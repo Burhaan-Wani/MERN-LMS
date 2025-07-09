@@ -43,8 +43,7 @@ const handleDuplicateFieldsDB = error => {
     return new AppError(message, 400);
 };
 
-const handleJWTExpiredError = () =>
-    new AppError("Your token has expired. Please log in again.", 401);
+const handleJWTExpiredError = () => new AppError("JWT_EXPIRED", 401);
 
 const handleJWTError = () =>
     new AppError("Invalid token. Please log in again.", 401);

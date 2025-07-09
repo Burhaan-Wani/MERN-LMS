@@ -12,10 +12,8 @@ import { Button } from "../ui/button";
 import axiosInstance from "@/lib/axios";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useAuthContext } from "@/hooks/useAuthContext";
 
 export default function SignUp() {
-    const { setTypeForm } = useAuthContext();
     const [signUpData, setSignUpData] = useState({
         userName: "",
         email: "",
@@ -44,7 +42,6 @@ export default function SignUp() {
                     email: "",
                     password: "",
                 });
-                setTypeForm("Log In");
             }
         } catch (error) {
             console.log(error);
