@@ -4,11 +4,12 @@ import RouteGuard from "./components/route-guard";
 import StudentHomePage from "./pages/student/Home";
 import StudentLayout from "./layout/student-view";
 import InstructorDashboardPage from "./pages/instructor";
-import { useAuthContext } from "./context/context";
+
+import AddNewCourse from "./pages/instructor/addNewCourse";
+import { useAuthContext } from "./context/auth/context";
 
 function App() {
     const { user, isLoading } = useAuthContext();
-
     return (
         <>
             <Routes>
@@ -25,6 +26,14 @@ function App() {
                     element={
                         <RouteGuard user={user} loading={isLoading}>
                             <InstructorDashboardPage />
+                        </RouteGuard>
+                    }
+                />
+                <Route
+                    path="/instructor/create-new-course"
+                    element={
+                        <RouteGuard user={user} loading={isLoading}>
+                            <AddNewCourse />
                         </RouteGuard>
                     }
                 />

@@ -63,11 +63,11 @@ const login = catchAsync(async (req, res, next) => {
 const logout = catchAsync(async (req, res, next) => {
     res.cookie("jwt", "", {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: NODE_ENV === "production",
         maxAge: 0,
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        sameSite: NODE_ENV === "production" ? "None" : "Lax",
     });
-    res.statu(200).json({
+    res.status(200).json({
         status: "success",
         message: "Logged out successfully",
     });

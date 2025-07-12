@@ -5,7 +5,8 @@ const cloudinary = require("../config/cloudinary");
 const uploadToCloudinary = async filePath => {
     try {
         const result = await cloudinary.uploader.upload(filePath, {
-            folder: "job-portal",
+            folder: "MERN-LMS",
+            resource_type: "auto",
         });
 
         fs.unlinkSync(filePath); // delete local file after upload
@@ -31,4 +32,15 @@ const uploadToCloudinary = async filePath => {
     }
 };
 
-module.exports = uploadToCloudinary;
+const deleteFromCloudinary = async function (public_id) {
+    try {
+        await cloudinary.uploader.destroy(public_id);
+    } catch (error) {
+        console.log(error);
+        throw new AppError("Failed to delete file to Cloudinary", 500);
+    }
+};
+module.exports = {
+    uploadToCloudinary,
+    deleteFromCloudinary,
+};

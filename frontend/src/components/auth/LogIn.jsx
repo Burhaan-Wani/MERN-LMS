@@ -12,8 +12,8 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import axiosInstance from "@/lib/axios";
 import { toast } from "sonner";
-import { useAuthContext } from "@/context/context";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "@/context/auth/context";
 
 export default function LogIn() {
     const navigate = useNavigate();

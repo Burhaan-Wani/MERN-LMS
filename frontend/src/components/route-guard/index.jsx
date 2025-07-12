@@ -3,7 +3,6 @@ import { Fragment } from "react";
 
 function RouteGuard({ user, loading, children }) {
     const location = useLocation();
-
     if (loading) return null;
 
     if (!user.isAuthenticated && !location.pathname.includes("/auth")) {
@@ -12,7 +11,7 @@ function RouteGuard({ user, loading, children }) {
 
     if (
         user.isAuthenticated &&
-        user?.user.role !== "instructor" &&
+        user?.user?.role !== "instructor" &&
         (location.pathname.includes("instructor") ||
             location.pathname.includes("/auth"))
     ) {
@@ -21,7 +20,7 @@ function RouteGuard({ user, loading, children }) {
 
     if (
         user.isAuthenticated &&
-        user.user.role === "instructor" &&
+        user?.user?.role === "instructor" &&
         !location.pathname.includes("instructor")
     ) {
         return <Navigate to="/instructor" />;

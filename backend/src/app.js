@@ -7,6 +7,7 @@ const AppError = require("./utils/AppError");
 const globalErrorHandler = require("./middlewares/globalErrorHandler");
 
 const authRoutes = require("./routes/auth.routes");
+const mediaRoutes = require("./routes/media.routes");
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(
 
 // ROUTES
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/media", mediaRoutes);
 
 // ROUTER HANDLER FOR UNKNOWN ROUTES
 app.all("*", (req, res, next) => {
