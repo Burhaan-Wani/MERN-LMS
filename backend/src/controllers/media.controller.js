@@ -21,7 +21,7 @@ const deleteSingleFile = catchAsync(async (req, res, next) => {
         return next(new AppError("Asset ID is required", 400));
     }
     await deleteFromCloudinary(id);
-    req.status(200).json({
+    res.status(200).json({
         status: "success",
         message: "Asset deleted successfully",
     });

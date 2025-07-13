@@ -88,6 +88,36 @@ export default function CourseCurriculum() {
             );
         });
     }
+
+    async function handleReplaceMedia(currentIndex) {
+        console.log(currentIndex);
+        let cpyCourseCurriculumFormData = [...courseCurriculumFormData];
+        const getCurrentVideoPublicId =
+            cpyCourseCurriculumFormData[currentIndex].public_id;
+        try {
+            setMediaUploadProgress(true);
+            const res = await axiosInstance.delete(
+                `/media/delete/${getCurrentVideoPublicId}`,
+                {
+                    withCredentials: true,
+                }
+            );
+            if (res.data.status === "success") {
+                cpyCourseCurriculumFormData[currentIndex] = {
+                    ...cpyCourseCurriculumFormData[currentIndex],
+                    videoUrl: "",
+                    public_id: "",
+                };
+
+                setCourseCurriculumFormData(cpyCourseCurriculumFormData);
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setMediaUploadProgress(false);
+        }
+    }
+    console.log(courseCurriculumFormData);
     return (
         <Card>
             <CardHeader className="flex flex-row justify-between">
@@ -169,7 +199,18 @@ export default function CourseCurriculum() {
                                                     ?.videoUrl
                                             }
                                         />
-                                        <Button>Replace Video</Button>
+                                        <Button
+                                            disabled={mediaUploadProgress}
+                                            onClick={() =>
+                                                handleReplaceMedia(index)
+                                            }
+                                        >
+                                            {mediaUploadProgress ? (
+                                                <Loader className="animate-spin" />
+                                            ) : (
+                                                "Replace Video"
+                                            )}
+                                        </Button>
                                         <Button className="bg-red-900">
                                             Delete Lecture
                                         </Button>
