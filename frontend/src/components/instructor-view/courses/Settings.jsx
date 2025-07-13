@@ -41,7 +41,6 @@ export default function CourseSettings() {
             }
         }
     };
-    console.log(landingPageFormData);
     return (
         <Card>
             <CardHeader>

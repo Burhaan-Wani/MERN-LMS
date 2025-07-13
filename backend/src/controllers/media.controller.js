@@ -27,7 +27,22 @@ const deleteSingleFile = catchAsync(async (req, res, next) => {
     });
 });
 
+const bulkuploadFiles = catchAsync(async (req, res, next) => {
+    const uploadPromises = req.files.map(file => uploadToCloudinary(file.path));
+
+    const bulkuploads = await Promise.all(uploadPromises);
+
+    res.status(200).json({
+        status: "success",
+        message: "bulk upload successful",
+        data: {
+            uploads: bulkuploads,
+        },
+    });
+});
+
 module.exports = {
     uploadSinglefile,
     deleteSingleFile,
+    bulkuploadFiles,
 };

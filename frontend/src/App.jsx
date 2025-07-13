@@ -38,6 +38,14 @@ function App() {
                     }
                 />
                 <Route
+                    path="/instructor/edit-course/:courseId"
+                    element={
+                        <RouteGuard user={user} loading={isLoading}>
+                            <AddNewCourse />
+                        </RouteGuard>
+                    }
+                />
+                <Route
                     path="/"
                     element={
                         <RouteGuard user={user} loading={isLoading}>

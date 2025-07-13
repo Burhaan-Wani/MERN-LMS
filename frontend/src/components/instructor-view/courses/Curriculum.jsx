@@ -8,7 +8,7 @@ import { courseCurriculumInitialFormData } from "@/config";
 import { useInstructorContext } from "@/context/instructor/context";
 import axiosInstance from "@/lib/axios";
 import { Loader, Upload } from "lucide-react";
-import React from "react";
+import React, { useRef } from "react";
 
 export default function CourseCurriculum() {
     const {
@@ -18,6 +18,7 @@ export default function CourseCurriculum() {
         setMediaUploadProgress,
     } = useInstructorContext();
 
+    const bulkUploadInputRef = useRef(null);
     function handleNewLecture() {
         setCourseCurriculumFormData([
             ...courseCurriculumFormData,
@@ -35,6 +36,7 @@ export default function CourseCurriculum() {
         };
         setCourseCurriculumFormData(cpycourseCurriculumFormData);
     }
+
     function handleFreePreviewChange(currentValue, currentIndex) {
         let cpyCourseCurriculumFormData = [...courseCurriculumFormData];
         cpyCourseCurriculumFormData[currentIndex] = {
@@ -82,7 +84,7 @@ export default function CourseCurriculum() {
         return courseCurriculumFormData.every(item => {
             return (
                 item &&
-                item === "object" &&
+                typeof item === "object" &&
                 item.title.trim() !== "" &&
                 item.videoUrl.trim() !== ""
             );
@@ -117,24 +119,88 @@ export default function CourseCurriculum() {
             setMediaUploadProgress(false);
         }
     }
-    console.log(courseCurriculumFormData);
+
+    function bulkUploadClick() {
+        bulkUploadInputRef.current?.click();
+    }
+
+    function areAllCourseCurriculumFormDataObjectsEmpty(arr) {
+        return arr.every(obj => {
+            return Object.entries(obj).every(([, value]) => {
+                if (typeof value === "boolean") {
+                    return true;
+                }
+                return value === "";
+            });
+        });
+    }
+
+    async function handleBulkUpload(event) {
+        const selectedFiles = Array.from(event.target.files);
+        const bulkUploads = new FormData();
+
+        selectedFiles.forEach(fileItem =>
+            bulkUploads.append("files", fileItem)
+        );
+
+        try {
+            setMediaUploadProgress(true);
+            const res = await axiosInstance.post(
+                "/media/bulk-upload",
+                bulkUploads,
+                {
+                    withCredentials: true,
+                }
+            );
+
+            if (res.data.status === "success") {
+                const uploads = res.data.data.uploads;
+                let cpyCourseCurriculumFormData =
+                    areAllCourseCurriculumFormDataObjectsEmpty(
+                        courseCurriculumFormData
+                    )
+                        ? []
+                        : [...courseCurriculumFormData];
+
+                cpyCourseCurriculumFormData = [
+                    ...cpyCourseCurriculumFormData,
+                    ...uploads.map((item, index) => ({
+                        videoUrl: item.url,
+                        public_id: item.public_id,
+                        freePreview: false,
+                        title: `Lecture ${
+                            cpyCourseCurriculumFormData.length + (index + 1)
+                        }`,
+                    })),
+                ];
+                setCourseCurriculumFormData(cpyCourseCurriculumFormData);
+                setMediaUploadProgress(false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <Card>
             <CardHeader className="flex flex-row justify-between">
                 <CardTitle>Create Course Curriculum</CardTitle>
                 <div>
                     <Input
+                        ref={bulkUploadInputRef}
                         type="file"
                         accept="video/*"
                         multiple
                         className="hidden"
                         id="bulk-media-upload"
+                        onChange={handleBulkUpload}
                     />
                     <Button
                         as="label"
                         htmlFor="bulk-media-upload"
                         variant="outline"
                         className="cursor-pointer"
+                        onClick={bulkUploadClick}
                     >
                         <Upload className="w-4 h-5 mr-2" />
                         Bulk Upload
@@ -200,16 +266,11 @@ export default function CourseCurriculum() {
                                             }
                                         />
                                         <Button
-                                            disabled={mediaUploadProgress}
                                             onClick={() =>
                                                 handleReplaceMedia(index)
                                             }
                                         >
-                                            {mediaUploadProgress ? (
-                                                <Loader className="animate-spin" />
-                                            ) : (
-                                                "Replace Video"
-                                            )}
+                                            Replace Video
                                         </Button>
                                         <Button className="bg-red-900">
                                             Delete Lecture

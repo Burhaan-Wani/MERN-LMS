@@ -85,12 +85,14 @@ const courseSchema = new mongoose.Schema(
             required: [true, "Objective is required"],
             trim: true,
         },
-        students: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-            },
-        ],
+        students: {
+            type: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "User",
+                },
+            ],
+        },
         curriculum: [
             {
                 type: lectureSchema,

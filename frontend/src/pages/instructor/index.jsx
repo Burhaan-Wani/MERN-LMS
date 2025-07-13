@@ -2,34 +2,56 @@ import InstructorCourses from "@/components/instructor-view/courses";
 import InstructorDashboard from "@/components/instructor-view/dashboard";
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/context/auth/context";
+import { useInstructorContext } from "@/context/instructor/context";
+import axiosInstance from "@/lib/axios";
 import { Tabs, TabsContent } from "@radix-ui/react-tabs";
 import { BarChart, Book, LogOut } from "lucide-react";
-import React, { useState } from "react";
-
-const menuItems = [
-    {
-        icon: BarChart,
-        label: "Dashboard",
-        value: "dashboard",
-        component: <InstructorDashboard />,
-    },
-    {
-        icon: Book,
-        label: "Courses",
-        value: "courses",
-        component: <InstructorCourses />,
-    },
-    {
-        icon: LogOut,
-        label: "Logout",
-        value: "logout",
-        component: null,
-    },
-];
+import React, { useEffect, useState } from "react";
 
 export default function InstructorDashboardPage() {
     const [activeTab, setActiveTab] = useState("dashboard");
     const { handleLogout } = useAuthContext();
+    const { instructorCoursesList, setInstructorCoursesList } =
+        useInstructorContext();
+
+    const menuItems = [
+        {
+            icon: BarChart,
+            label: "Dashboard",
+            value: "dashboard",
+            component: <InstructorDashboard />,
+        },
+        {
+            icon: Book,
+            label: "Courses",
+            value: "courses",
+            component: (
+                <InstructorCourses listOfCourses={instructorCoursesList} />
+            ),
+        },
+        {
+            icon: LogOut,
+            label: "Logout",
+            value: "logout",
+            component: null,
+        },
+    ];
+    useEffect(() => {
+        async function getInstructorsCourses() {
+            try {
+                const res = await axiosInstance.get("/courses", {
+                    withCredentials: true,
+                });
+
+                if (res.data.status === "success") {
+                    setInstructorCoursesList(res.data.data.courses);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getInstructorsCourses();
+    }, [setInstructorCoursesList]);
 
     return (
         <div className="flex h-full min-h-screen bg-gray-100">

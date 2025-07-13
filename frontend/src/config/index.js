@@ -7,6 +7,19 @@ export const courseCurriculumInitialFormData = [
     },
 ];
 
+export const landingPageInitialFormData = {
+    title: "",
+    category: "",
+    level: "",
+    primaryLanguage: "",
+    subtitle: "",
+    description: "",
+    pricing: "",
+    objectives: "",
+    welcomeMessage: "",
+    image: "",
+};
+
 export const languageOptions = [
     { id: "english", label: "English" },
     { id: "spanish", label: "Spanish" },

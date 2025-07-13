@@ -1,20 +1,14 @@
 import { useState } from "react";
 import { InstructorContext } from "./context";
-import { courseCurriculumInitialFormData } from "@/config";
+import {
+    courseCurriculumInitialFormData,
+    landingPageInitialFormData,
+} from "@/config";
 
 const InstructorProvider = ({ children }) => {
-    const [landingPageFormData, setLandingPageFormData] = useState({
-        title: "",
-        category: "",
-        level: "",
-        primaryLanguage: "",
-        subtitle: "",
-        description: "",
-        pricing: "",
-        objectives: "",
-        welcomeMessage: "",
-        image: "",
-    });
+    const [landingPageFormData, setLandingPageFormData] = useState(
+        landingPageInitialFormData
+    );
 
     const [courseCurriculumFormData, setCourseCurriculumFormData] = useState(
         courseCurriculumInitialFormData
@@ -24,6 +18,9 @@ const InstructorProvider = ({ children }) => {
     const [mediaUploadProgressPercentage, setMediaUploadProgressPercentage] =
         useState(0);
 
+    const [submitcourseLoading, setSubmitCourseLoading] = useState(false);
+
+    const [instructorCoursesList, setInstructorCoursesList] = useState([]);
     return (
         <InstructorContext.Provider
             value={{
@@ -35,6 +32,10 @@ const InstructorProvider = ({ children }) => {
                 setMediaUploadProgress,
                 mediaUploadProgressPercentage,
                 setMediaUploadProgressPercentage,
+                submitcourseLoading,
+                setSubmitCourseLoading,
+                instructorCoursesList,
+                setInstructorCoursesList,
             }}
         >
             {children}
