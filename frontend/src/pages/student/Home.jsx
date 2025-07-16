@@ -1,21 +1,27 @@
 import { courseCategories } from "@/config";
 import banner from "../../assets/banner.jpg";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-// import { useStudentContext } from "@/context/student-context/context";
+import { useStudentContext } from "@/context/student-context/context";
 
 export default function StudentHomePage() {
-    // const { studentCourseList, setStudentCourseList } = useStudentContext();
+    const { studentCourseList, fetchStudentViewCourses } = useStudentContext();
+
+    useEffect(() => {
+        fetchStudentViewCourses();
+    }, []);
+
+    console.log(studentCourseList);
     return (
         <div className="min-h-screen bg-white">
             <section className="flex flex-col lg:flex-row items-center justify-between py-8 px-4 lg:px-8">
                 <div className="lg:w-1/2 lg:pr-12">
                     <h1 className="text-4xl font-bold mb-4">
-                        Learning thet gets you
+                        Learning that gets you
                     </h1>
                     <p className="text-xl">
                         Skills for your present and your future. Get Started
-                        with US
+                        with us
                     </p>
                 </div>
                 <div className="lg:w-full mb-8 lg:mb-0">
@@ -45,15 +51,14 @@ export default function StudentHomePage() {
                 </div>
             </section>
             <section className="py-12 px-4 lg:px-8">
-                <h2 className="text-2xl font-bold mb-6">Featured COourses</h2>
+                <h2 className="text-2xl font-bold mb-6">Featured Courses</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {/* {studentViewCoursesList &&
-                    studentViewCoursesList.length > 0 ? (
-                        studentViewCoursesList.map(courseItem => (
+                    {studentCourseList && studentCourseList.length > 0 ? (
+                        studentCourseList.map(courseItem => (
                             <div
-                                onClick={() =>
-                                    handleCourseNavigate(courseItem?._id)
-                                }
+                                // onClick={() =>
+                                //     handleCourseNavigate(courseItem?._id)
+                                // }
                                 className="border rounded-lg overflow-hidden shadow cursor-pointer"
                             >
                                 <img
@@ -77,7 +82,7 @@ export default function StudentHomePage() {
                         ))
                     ) : (
                         <h1>No Courses Found</h1>
-                    )} */}
+                    )}
                 </div>
             </section>
         </div>
