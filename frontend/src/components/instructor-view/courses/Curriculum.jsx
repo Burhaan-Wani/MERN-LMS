@@ -181,6 +181,25 @@ export default function CourseCurriculum() {
         }
     }
 
+    async function handleDeleteLecture(currentIndex) {
+        let cpyCourseCurriculumFormData = [...courseCurriculumFormData];
+        const videoId = cpyCourseCurriculumFormData[currentIndex].public_id;
+        try {
+            const res = await axiosInstance.delete(`/media/delete/${videoId}`, {
+                withCredentials: true,
+            });
+
+            if (res.data.status === "success") {
+                cpyCourseCurriculumFormData =
+                    cpyCourseCurriculumFormData.filter(
+                        (_, index) => index !== currentIndex
+                    );
+                setCourseCurriculumFormData(cpyCourseCurriculumFormData);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <Card>
             <CardHeader className="flex flex-row justify-between">
@@ -272,7 +291,12 @@ export default function CourseCurriculum() {
                                         >
                                             Replace Video
                                         </Button>
-                                        <Button className="bg-red-900">
+                                        <Button
+                                            onClick={() =>
+                                                handleDeleteLecture(index)
+                                            }
+                                            className="bg-red-900"
+                                        >
                                             Delete Lecture
                                         </Button>
                                     </div>
