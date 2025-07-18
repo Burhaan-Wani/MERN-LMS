@@ -9,6 +9,7 @@ const globalErrorHandler = require("./middlewares/globalErrorHandler");
 const authRoutes = require("./routes/auth.routes");
 const mediaRoutes = require("./routes/media.routes");
 const courseRoutes = require("./routes/course.routes");
+const studentRoutes = require("./routes/student.routes");
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/media", mediaRoutes);
 app.use("/api/v1/courses", courseRoutes);
+app.use("/api/v1/students", studentRoutes);
 
 // ROUTER HANDLER FOR UNKNOWN ROUTES
 app.all("*", (req, res, next) => {

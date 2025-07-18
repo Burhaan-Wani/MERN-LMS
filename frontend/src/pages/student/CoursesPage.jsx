@@ -16,10 +16,10 @@ import { useStudentContext } from "@/context/student-context/context";
 import axiosInstance from "@/lib/axios";
 import { ArrowUpDownIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function CoursesPage() {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const { studentCourseList, setStudentCourseList, loading, setLoading } =
         useStudentContext();
@@ -180,6 +180,11 @@ export default function CoursesPage() {
                         ) : studentCourseList.length > 0 ? (
                             studentCourseList.map(course => (
                                 <Card
+                                    onClick={() =>
+                                        navigate(
+                                            `/courses/details/${course._id}`
+                                        )
+                                    }
                                     key={course?._id}
                                     className="cursor-pointer"
                                 >

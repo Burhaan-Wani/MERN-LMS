@@ -5,6 +5,7 @@ import axiosInstance from "@/lib/axios";
 const StudentProvider = ({ children }) => {
     const [studentCourseList, setStudentCourseList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [courseDetails, setCourseDetails] = useState(null);
 
     async function fetchStudentViewCourses() {
         try {
@@ -30,6 +31,8 @@ const StudentProvider = ({ children }) => {
                 studentCourseList,
                 setStudentCourseList,
                 fetchStudentViewCourses,
+                courseDetails,
+                setCourseDetails,
             }}
         >
             {children}
