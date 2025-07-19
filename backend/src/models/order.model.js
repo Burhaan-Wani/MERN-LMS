@@ -15,13 +15,18 @@ const orderSchema = new mongoose.Schema(
             type: String,
             required: [true, "Payment method is required"],
         },
+        paymentStatus: {
+            type: String,
+            required: [true, "Payment status is required"],
+        },
         orderDate: {
             type: String,
             required: [true, "Order date is required"],
         },
-        paymentId: {
+        paymentId: { type: String, required: [true, "PaymentID is required"] },
+        payerId: {
             type: String,
-            required: [true, "Paymend ID is required"],
+            required: [true, "PayerID is required"],
         },
         instructorId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -36,6 +41,10 @@ const orderSchema = new mongoose.Schema(
         coursePricing: {
             type: String,
             required: [true, "Price is required"],
+        },
+        paypalOrderId: {
+            type: String,
+            required: [true, "Paypal order ID is required"],
         },
     },
     {

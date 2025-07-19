@@ -10,10 +10,9 @@ import {
 } from "@/components/ui/dialog";
 import VideoPlayer from "@/components/video-player";
 import { useStudentContext } from "@/context/student-context/context";
-import axiosInstance from "@/lib/axios";
 import { CheckCircle, Globe, Loader, Lock, PlayCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function CourseDetails() {
     const [displayCurrentVideoFreePreview, setDisplayCurrentVideoFreePreview] =
@@ -21,8 +20,8 @@ export default function CourseDetails() {
     const [showDialog, setShowDialog] = useState(false);
 
     const { id } = useParams();
-    const { courseDetails, setCourseDetails, loading, setLoading } =
-        useStudentContext();
+    const navigate = useNavigate();
+    const { courseDetails, loading, fetchCourseDetails } = useStudentContext();
 
     const getIndexOfFreePreviewUrl = courseDetails?.curriculum.findIndex(
         curr => curr.freePreview
@@ -33,23 +32,7 @@ export default function CourseDetails() {
         setDisplayCurrentVideoFreePreview(curriculum.videoUrl);
     };
     useEffect(() => {
-        async function fetchCourseDetails() {
-            try {
-                setLoading(true);
-                const res = await axiosInstance.get(`/students/${id}`, {
-                    withCredentials: true,
-                });
-
-                if (res.data.status === "success") {
-                    setCourseDetails(res.data.data.course);
-                }
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchCourseDetails();
+        fetchCourseDetails(id);
     }, [id]);
 
     if (loading)
@@ -173,7 +156,11 @@ export default function CourseDetails() {
                                 </span>
                             </div>
                             <Button
-                                // onClick={handleCreatePayment}
+                                onClick={() =>
+                                    navigate(
+                                        `/courses/checkout/${courseDetails._id}`
+                                    )
+                                }
                                 className="w-full"
                             >
                                 Buy Now

@@ -23,6 +23,23 @@ const StudentProvider = ({ children }) => {
             setLoading(false);
         }
     }
+
+    async function fetchCourseDetails(id) {
+        try {
+            setLoading(true);
+            const res = await axiosInstance.get(`/students/${id}`, {
+                withCredentials: true,
+            });
+
+            if (res.data.status === "success") {
+                setCourseDetails(res.data.data.course);
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }
     return (
         <StudentContext.Provider
             value={{
@@ -33,6 +50,7 @@ const StudentProvider = ({ children }) => {
                 fetchStudentViewCourses,
                 courseDetails,
                 setCourseDetails,
+                fetchCourseDetails,
             }}
         >
             {children}

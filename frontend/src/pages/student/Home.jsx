@@ -11,7 +11,6 @@ export default function StudentHomePage() {
         fetchStudentViewCourses();
     }, []);
 
-    console.log(studentCourseList);
     return (
         <div className="min-h-screen bg-white">
             <section className="flex flex-col lg:flex-row items-center justify-between py-8 px-4 lg:px-8">

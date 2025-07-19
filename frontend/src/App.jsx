@@ -9,6 +9,9 @@ import AddNewCourse from "./pages/instructor/addNewCourse";
 import { useAuthContext } from "./context/auth/context";
 import CoursesPage from "./pages/student/CoursesPage";
 import CourseDetails from "./pages/student/courseDetails";
+import CheckoutPage from "./pages/student/StudentCheckoutPage";
+import ThankYouPage from "./pages/student/ThankYouPage";
+import MyCourses from "./pages/student/MyCourses";
 
 function App() {
     const { user, isLoading } = useAuthContext();
@@ -59,9 +62,15 @@ function App() {
                     <Route path="home" element={<StudentHomePage />} />
                     <Route path="courses" element={<CoursesPage />} />
                     <Route
-                        path="courses/details/:id"
+                        path="/courses/details/:id"
                         element={<CourseDetails />}
                     />
+                    <Route
+                        path="/courses/checkout/:id"
+                        element={<CheckoutPage />}
+                    />
+                    <Route path="/my-courses" element={<MyCourses />} />
+                    <Route path="/thank-you" element={<ThankYouPage />} />
                 </Route>
             </Routes>
         </>
