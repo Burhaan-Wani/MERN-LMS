@@ -1,4 +1,5 @@
 const Course = require("../models/course.model");
+const StudentCourses = require("../models/studentCourses.model");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -127,15 +128,36 @@ const getStudentCourseDetails = catchAsync(async (req, res, next) => {
     if (!courseDetails) {
         return next(new AppError("Course not found", 404));
     }
+
+    const studentBoughtCourses = await StudentCourses.findOne({
+        userId: req.user._id,
+    });
+
+    const isPurchased = studentBoughtCourses?.courses.findIndex(
+        course => course.courseId === id
+    );
     res.status(200).json({
         status: "success",
         messsage: "Course fetched successfully",
         data: {
             course: courseDetails,
+            isPurchased: isPurchased > -1 ? id : "",
         },
     });
 });
 
+// Paid ones
+const getMyCourses = catchAsync(async (req, res, next) => {
+    const { userId } = req.params;
+    const myPaidCourses = await StudentCourses.findOne({ userId });
+    res.status(200).json({
+        status: "success",
+        message: "My courses",
+        data: {
+            courses: myPaidCourses?.courses || [],
+        },
+    });
+});
 module.exports = {
     addCourse,
     getAllCourses,
@@ -143,4 +165,5 @@ module.exports = {
     updateCourse,
     getStudentViewCourses,
     getStudentCourseDetails,
+    getMyCourses,
 };

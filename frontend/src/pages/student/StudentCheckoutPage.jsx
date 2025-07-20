@@ -5,7 +5,6 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import { Loader } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "sonner";
 
 const CheckoutPage = () => {
     const { id } = useParams();
@@ -45,7 +44,6 @@ const CheckoutPage = () => {
             });
 
             if (res.data.status === "success") {
-                toast("Course purchased successfully");
                 navigate("/thank-you");
             }
         } catch (error) {

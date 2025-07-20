@@ -12,7 +12,7 @@ import VideoPlayer from "@/components/video-player";
 import { useStudentContext } from "@/context/student-context/context";
 import { CheckCircle, Globe, Loader, Lock, PlayCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 export default function CourseDetails() {
     const [displayCurrentVideoFreePreview, setDisplayCurrentVideoFreePreview] =
@@ -21,7 +21,8 @@ export default function CourseDetails() {
 
     const { id } = useParams();
     const navigate = useNavigate();
-    const { courseDetails, loading, fetchCourseDetails } = useStudentContext();
+    const { courseDetails, loading, fetchCourseDetails, hasPurchasedCourse } =
+        useStudentContext();
 
     const getIndexOfFreePreviewUrl = courseDetails?.curriculum.findIndex(
         curr => curr.freePreview
@@ -31,6 +32,7 @@ export default function CourseDetails() {
         setShowDialog(true);
         setDisplayCurrentVideoFreePreview(curriculum.videoUrl);
     };
+
     useEffect(() => {
         fetchCourseDetails(id);
     }, [id]);
@@ -42,6 +44,11 @@ export default function CourseDetails() {
             </div>
         );
 
+    if (hasPurchasedCourse !== "") {
+        return (
+            <Navigate to={`/course-progress/${courseDetails._id}`} replace />
+        );
+    }
     return (
         <div className=" mx-auto p-4">
             <div className="bg-gray-900 text-white p-8 rounded-t-lg">

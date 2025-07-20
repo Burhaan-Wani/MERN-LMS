@@ -68,12 +68,12 @@ const captureOrderAndFinalizeOrder = catchAsync(async (req, res, next) => {
 
         if (studentCourses) {
             studentCourses.courses.push({
-                courseId: order.courseId,
-                title: order.courseId.courseTitle,
-                instructorId: order.instructorId,
+                courseId: order.courseId._id,
+                title: order.courseId.title,
+                instructorId: order.instructorId._id,
                 instructorName: order.instructorId.userName,
                 dateOfPurchase: order.orderDate,
-                courseImage: order.courseId.courseImage,
+                courseImage: order.courseId.image,
             });
             await studentCourses.save();
         } else {
@@ -81,12 +81,12 @@ const captureOrderAndFinalizeOrder = catchAsync(async (req, res, next) => {
                 userId: order.userId,
                 courses: [
                     {
-                        courseId: order.courseId,
-                        title: order.courseId.courseTitle,
-                        instructorId: order.instructorId,
+                        courseId: order.courseId._id,
+                        title: order.courseId.title,
+                        instructorId: order.instructorId._id,
                         instructorName: order.instructorId.userName,
                         dateOfPurchase: order.orderDate,
-                        courseImage: order.courseId.courseImage,
+                        courseImage: order.courseId.image,
                     },
                 ],
             });

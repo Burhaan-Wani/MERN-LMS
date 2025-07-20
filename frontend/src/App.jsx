@@ -12,6 +12,7 @@ import CourseDetails from "./pages/student/courseDetails";
 import CheckoutPage from "./pages/student/StudentCheckoutPage";
 import ThankYouPage from "./pages/student/ThankYouPage";
 import MyCourses from "./pages/student/MyCourses";
+import CourseProgress from "./pages/student/CourseProgress";
 
 function App() {
     const { user, isLoading } = useAuthContext();
@@ -71,6 +72,10 @@ function App() {
                     />
                     <Route path="/my-courses" element={<MyCourses />} />
                     <Route path="/thank-you" element={<ThankYouPage />} />
+                    <Route
+                        path="/course-progress/:courseId"
+                        element={<CourseProgress />}
+                    />
                 </Route>
             </Routes>
         </>

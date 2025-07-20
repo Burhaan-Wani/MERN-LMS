@@ -6,6 +6,8 @@ const StudentProvider = ({ children }) => {
     const [studentCourseList, setStudentCourseList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [courseDetails, setCourseDetails] = useState(null);
+    const [myPaidCourses, setMyPaidCourses] = useState([]);
+    const [hasPurchasedCourse, setHasPurchasedCourse] = useState("");
 
     async function fetchStudentViewCourses() {
         try {
@@ -33,6 +35,7 @@ const StudentProvider = ({ children }) => {
 
             if (res.data.status === "success") {
                 setCourseDetails(res.data.data.course);
+                setHasPurchasedCourse(res.data.data.isPurchased);
             }
         } catch (error) {
             console.log(error);
@@ -51,6 +54,10 @@ const StudentProvider = ({ children }) => {
                 courseDetails,
                 setCourseDetails,
                 fetchCourseDetails,
+                myPaidCourses,
+                setMyPaidCourses,
+                hasPurchasedCourse,
+                setHasPurchasedCourse,
             }}
         >
             {children}

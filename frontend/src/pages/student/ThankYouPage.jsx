@@ -5,41 +5,24 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 export default function ThankYouPage() {
+    const [showConfetti, setShowConfetti] = useState(false);
     const [width, height] = useWindowSize();
-    const [pieces, setPieces] = useState(300);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const decay = setInterval(() => {
-            setPieces(prev => {
-                if (prev <= 0) {
-                    clearInterval(decay);
-                    return 0;
-                }
-                return prev - 10;
-            });
-        }, 100);
-
+        setShowConfetti(true);
         const redirect = setTimeout(() => {
             navigate("/my-courses");
         }, 6000);
 
         return () => {
-            clearInterval(decay);
             clearTimeout(redirect);
         };
     }, [navigate]);
 
     return (
         <>
-            {width > 0 && height > 0 && pieces > 0 && (
-                <Confetti
-                    width={width}
-                    height={height}
-                    numberOfPieces={pieces}
-                    recycle={false}
-                />
-            )}
+            {showConfetti && <Confetti width={width} height={height} />}
             <div className="bg-gray-100 min-h-screen flex items-center justify-center p-6">
                 <div className="bg-white rounded-2xl shadow-xl p-10 max-w-lg text-center transition-all duration-700 ease-in-out">
                     <div className="text-green-500 mb-4">
