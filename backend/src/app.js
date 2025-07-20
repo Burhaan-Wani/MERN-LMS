@@ -11,6 +11,7 @@ const mediaRoutes = require("./routes/media.routes");
 const courseRoutes = require("./routes/course.routes");
 const studentRoutes = require("./routes/student.routes");
 const orderRoutes = require("./routes/order.routes");
+const courseProgressRoutes = require("./routes/courseProgress.routes");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/api/v1/media", mediaRoutes);
 app.use("/api/v1/courses", courseRoutes);
 app.use("/api/v1/students", studentRoutes);
 app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/progress", courseProgressRoutes);
 
 // ROUTER HANDLER FOR UNKNOWN ROUTES
 app.all("*", (req, res, next) => {

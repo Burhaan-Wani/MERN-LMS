@@ -8,6 +8,7 @@ const StudentProvider = ({ children }) => {
     const [courseDetails, setCourseDetails] = useState(null);
     const [myPaidCourses, setMyPaidCourses] = useState([]);
     const [hasPurchasedCourse, setHasPurchasedCourse] = useState("");
+    const [currentCourseProgress, setCurrentCourseProgress] = useState({});
 
     async function fetchStudentViewCourses() {
         try {
@@ -58,6 +59,8 @@ const StudentProvider = ({ children }) => {
                 setMyPaidCourses,
                 hasPurchasedCourse,
                 setHasPurchasedCourse,
+                currentCourseProgress,
+                setCurrentCourseProgress,
             }}
         >
             {children}

@@ -3,10 +3,17 @@ import banner from "../../assets/banner.jpg";
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useStudentContext } from "@/context/student-context/context";
+import { useNavigate } from "react-router-dom";
 
 export default function StudentHomePage() {
+    const navigate = useNavigate();
     const { studentCourseList, fetchStudentViewCourses } = useStudentContext();
 
+    function updateSearchParams(id) {
+        navigate(`/courses?category=${id}&sortBy=price-lowtohigh`, {
+            replace: true,
+        });
+    }
     useEffect(() => {
         fetchStudentViewCourses();
     }, []);
@@ -40,9 +47,7 @@ export default function StudentHomePage() {
                             className="justify-start"
                             variant="outline"
                             key={categoryItem.id}
-                            // onClick={() =>
-                            //     handleNavigateToCoursesPage(categoryItem.id)
-                            // }
+                            onClick={() => updateSearchParams(categoryItem.id)}
                         >
                             {categoryItem.label}
                         </Button>
@@ -55,9 +60,12 @@ export default function StudentHomePage() {
                     {studentCourseList && studentCourseList.length > 0 ? (
                         studentCourseList.map(courseItem => (
                             <div
-                                // onClick={() =>
-                                //     handleCourseNavigate(courseItem?._id)
-                                // }
+                                key={courseItem._id}
+                                onClick={() =>
+                                    navigate(
+                                        `/courses/details/${courseItem?._id}`
+                                    )
+                                }
                                 className="border rounded-lg overflow-hidden shadow cursor-pointer"
                             >
                                 <img

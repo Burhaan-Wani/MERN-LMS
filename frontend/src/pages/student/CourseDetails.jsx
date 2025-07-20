@@ -155,6 +155,7 @@ export default function CourseDetails() {
                                     }
                                     width="450px"
                                     height="200px"
+                                    onProgressUpdate={() => {}}
                                 />
                             </div>
                             <div className="mb-4">
@@ -192,6 +193,7 @@ export default function CourseDetails() {
                             url={displayCurrentVideoFreePreview}
                             width="450px"
                             height="200px"
+                            onProgressUpdate={() => {}}
                         />
                     </div>
                     <div className="flex flex-col gap-2">

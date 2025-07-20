@@ -1,8 +1,15 @@
 import "media-chrome";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
-export default function VideoPlayer({ width = "100%", height = "100%", url }) {
+export default function VideoPlayer({
+    width = "100%",
+    height = "100%",
+    url,
+    onProgressUpdate,
+}) {
+    const [played, setPlayed] = useState(0);
     const mediaControllerRef = useRef(null);
+    const videoRef = useRef(null);
 
     useEffect(() => {
         const controller = mediaControllerRef.current;
@@ -29,6 +36,27 @@ export default function VideoPlayer({ width = "100%", height = "100%", url }) {
         };
     }, []);
 
+    useEffect(() => {
+        const video = videoRef.current;
+
+        const handleTimeUpdate = () => {
+            const progress = (video.currentTime / video.duration) * 100 || 0;
+            setPlayed(Math.round(progress));
+        };
+
+        video?.addEventListener("timeupdate", handleTimeUpdate);
+
+        return () => {
+            video?.removeEventListener("timeupdate", handleTimeUpdate);
+        };
+    }, []);
+
+    useEffect(() => {
+        onProgressUpdate(progressdata => ({
+            ...progressdata,
+            progressValue: played,
+        }));
+    }, [played]);
     return (
         <div
             className="bg-black"
@@ -45,6 +73,7 @@ export default function VideoPlayer({ width = "100%", height = "100%", url }) {
                 }}
             >
                 <video
+                    ref={videoRef}
                     slot="media"
                     src={url}
                     className="w-full h-full object-contain"
