@@ -62,7 +62,10 @@ export default function InstructorCourses({ listOfCourses }) {
                                               {course.students.length}
                                           </TableCell>
                                           <TableCell>
-                                              {`$${course.pricing}`}
+                                              {`$${
+                                                  course.pricing *
+                                                  course.students.length
+                                              }`}
                                           </TableCell>
                                           <TableCell className="text-right">
                                               <Button
