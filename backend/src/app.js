@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const { FRONTEND_URL } = require("./config");
 const AppError = require("./utils/AppError");
@@ -15,9 +16,12 @@ const courseProgressRoutes = require("./routes/courseProgress.routes");
 
 const app = express();
 
+const dirname = path.resolve();
+
 // MIDDLEWARES
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static(path.join(dirname, "/frontend/dist")));
 app.use(express.urlencoded({ extended: true }));
 app.use(
     cors({
@@ -35,6 +39,10 @@ app.use("/api/v1/courses", courseRoutes);
 app.use("/api/v1/students", studentRoutes);
 app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/progress", courseProgressRoutes);
+
+app.get("*", (_, res) => {
+    res.sendFile(path.resolve(dirname, "frontend", "dist", "index.html"));
+});
 
 // ROUTER HANDLER FOR UNKNOWN ROUTES
 app.all("*", (req, res, next) => {
