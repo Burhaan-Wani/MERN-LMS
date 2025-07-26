@@ -35,8 +35,8 @@ export default function SignUp() {
                 withCredentials: true,
             });
 
-            if (res.data.status === "success") {
-                toast(res.data.message); //
+            if (res.data?.status === "success") {
+                toast(res.data?.message); //
                 setSignUpData({
                     userName: "",
                     email: "",

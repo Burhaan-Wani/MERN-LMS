@@ -38,8 +38,8 @@ export default function LogIn() {
                 withCredentials: true,
             });
 
-            if (res.data.status === "success") {
-                toast(res.data.message);
+            if (res.data?.status === "success") {
+                toast(res.data?.message);
                 await authUser();
                 navigate("/home");
             }
