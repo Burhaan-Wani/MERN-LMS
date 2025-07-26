@@ -12,12 +12,13 @@ import { useAuthContext } from "@/context/auth/context";
 import { useInstructorContext } from "@/context/instructor/context";
 import axiosInstance from "@/lib/axios";
 import { Loader } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function AddNewCourse() {
     const navigate = useNavigate();
+    const [existingStudents, setExistingStudents] = useState([]);
     const { courseId } = useParams();
     const {
         landingPageFormData,
@@ -70,7 +71,7 @@ export default function AddNewCourse() {
             instructorName: user.user.userName,
             date: new Date(),
             ...landingPageFormData,
-            students: [],
+            students: courseId ? existingStudents : [],
             curriculum: courseCurriculumFormData,
             isPublished: true,
         };
@@ -125,13 +126,13 @@ export default function AddNewCourse() {
                 );
                 setLandingPageFormData(courseData);
                 setCourseCurriculumFormData(course?.curriculum);
+                setExistingStudents(course.students || []);
             }
         } catch (error) {
             console.log(error);
         }
     }
 
-    // console.log(validateFormData());
     useEffect(() => {
         if (courseId) fetchCourseById();
     }, [courseId]);

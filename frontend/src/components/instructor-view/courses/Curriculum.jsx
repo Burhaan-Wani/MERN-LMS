@@ -283,6 +283,7 @@ export default function CourseCurriculum() {
                                                 courseCurriculumFormData[index]
                                                     ?.videoUrl
                                             }
+                                            onProgressUpdate={() => {}}
                                         />
                                         <Button
                                             onClick={() =>

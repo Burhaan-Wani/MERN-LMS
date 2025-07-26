@@ -56,7 +56,7 @@ export default function VideoPlayer({
             ...progressdata,
             progressValue: played,
         }));
-    }, [played]);
+    }, [played, onProgressUpdate]);
     return (
         <div
             className="bg-black"
