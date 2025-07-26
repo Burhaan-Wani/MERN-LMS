@@ -5,14 +5,14 @@ import StudentHomePage from "./pages/student/Home";
 import StudentLayout from "./layout/student-view";
 import InstructorDashboardPage from "./pages/instructor";
 
-import AddNewCourse from "./pages/instructor/addNewCourse";
 import { useAuthContext } from "./context/auth/context";
 import CoursesPage from "./pages/student/CoursesPage";
-import CourseDetails from "./pages/student/courseDetails";
 import CheckoutPage from "./pages/student/StudentCheckoutPage";
 import ThankYouPage from "./pages/student/ThankYouPage";
 import MyCourses from "./pages/student/MyCourses";
 import CourseProgress from "./pages/student/CourseProgress";
+import AddNewCourse from "./pages/instructor/AddNewCourse";
+import CourseDetails from "./pages/student/CourseDetails";
 
 function App() {
     const { user, isLoading } = useAuthContext();
